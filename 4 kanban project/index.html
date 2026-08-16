@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kanban Board</title>
+    <style type="text/tailwindcss"></style>
+    <script src="https://cdn.tailwindcss.com"></script> 
+</head>
+<body class="bg-gray-50 flex flex-col h-screen items-center justify-center space-y-20">
+    <article class="space-y-8">
+        <header class="space-y-2">
+            <h1 class="text-center text-3xl font-bold">Kanban Board</h1>
+            <h2 class="text-center text-xl font-semibold">Order Your Day With Us</h2>
+            <p id="wipCounter" class="text-sm text-gray-600 text-center hidden">Tasks in Progress: 0 / 3</p>
+            <div id="priorityLegend" class="flex gap-4 text-sm">
+                <span class="flex items-center gap-1"><span class="w-3 h-3 bg-yellow-400 rounded-full inline-block"></span> Pending</span>
+                <span class="flex items-center gap-1"><span class="w-3 h-3 bg-red-500 rounded-full inline-block"></span> Urgent</span>
+                <span class="flex items-center gap-1"><span class="w-3 h-3 bg-orange-500 rounded-full inline-block"></span> Necessary</span>
+                <span class="flex items-center gap-1"><span class="w-3 h-3 bg-blue-500 rounded-full inline-block"></span> Side</span>
+                <span class="flex items-center gap-1"><span class="w-3 h-3 bg-green-500 rounded-full inline-block"></span> Completed</span>
+            </div>
+        </header>
+        <main>
+            <section id="addingForm">
+                <form action="" class="flex flex-col bg-white rounded-xl shadow-xl p-4 space-y-4">
+                    <!-- planing on embedding this in the js and use an if else for loadedMessageContainer.insertAdjacentHTML('beforeend', var name of addingForm and secondaryAdditionForm) using if in js; -->
+                    <div class="flex flex-col space-y-2">
+                        <label for="title" class="font-semibold">Task Title</label>
+                        <input type="text" id="title" class="bg-gray-50 border border-gray-500 rounded-xl py-2 px-4 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-white" placeholder="e.g. Study" required>
+                    </div>
+                    <div class="flex flex-col ">
+                        <label for="description" class="font-semibold">Task Description</label>
+                        <textarea name="" id="description" class="bg-gray-50 border border-gray-500 rounded-xl py-2 px-4 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-white" placeholder="e.g. read the book on growth"></textarea>
+                    </div>
+                    <!-- <button type="submit" id="optional-toggler">optionals</button> -->
+                    <details id="optional-toggled">
+                        <span class="group-open:hidden">Show optional inputs</span>
+                        <span class="group-open:block">hide optional inputs</span>
+                        <article>
+                        <div class="flex flex-col ">
+                            <label for="assignment">Task Assigned to:</label>
+                            <input type="text" id="assignment" class="bg-gray-50 border border-gray-500 rounded-xl py-2 px-4 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-white" placeholder="e.g. Hephzibah">
+                        </div>
+                        <div class="flex flex-col ">
+                            <label for="date">Task Date</label>
+                            <input type="date" class="bg-gray-50 border border-gray-500 rounded-xl py-2 px-4 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-white" id="date">
+                        </div>
+
+                        <div class="flex flex-col ">
+                            <label for="prioritySelector">Level of Importance</label>
+                            <select name="" id="prioritySelector">
+                                <option value="none">Select</option>
+                                <option value="urgent">Urgent tasks</option>
+                                <option value="necessary">Necessary tasks</option>
+                                <option value="side">Side task</option>
+                                <option value="pending">pending</option>
+                                <option value="completed">Completed</option>
+                            </select>
+                        </div>
+                        </article>
+                    </details>
+                    <button type="submit" class="submit-btn items-center bg-black text-white py-2 px-4 rounded-xl hover:bg-gray-700 hover:text-white focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-black">Add</button>
+                </form>
+            </section>
+            <section id="table" class="relative hidden">
+                <div id="wipErrorMessageContainer" class="border border-red-700 bg-red-200 flex flex-row items-center max-w-7xl justify-between px-4 py-2 rounded-xl hidden">
+                    <p class="text-red-700">You have passed the limit of tasks you can do at once pls finish the tasks you are working on first</p>
+                    <p class="text-red-700">&times;</p>
+                </div>
+                
+                <article id="threecolumns" class="grid grid-cols-3 text-center gap-6">
+                    <div id="todo">
+                        <h2 class="todo-header">Todo</h2>
+                        <div  class="cardcontainer h-screen bg-white rounded-xl shadow-xl p-4 space-y-4 text-left">
+                            <p>No task yet</p>
+                            <div class="card bg-gray-100 rounded-xl shadow-xl p-4 space-y-1 ">
+                            <button type="button" class="flex text-xl text-gray-500 items-right">&times;</button>
+                            <div class="id-container flex flex-row gap-2 items-center" aria-hidden="true">
+                                <p class="card-id">Time Stamp:</p>
+                                <p class="card-id-value">12345678901</p>
+                            </div>
+                            <div class="title-container flex flex-row gap-2 items-center">
+                                <p class="card-title">Title:</p>
+                                <p class="card-title-value">Design Landing</p>
+                            </div>
+                            <div class="description-container">
+                                <p class="card-description flex flex-row gap-2 items-center">Description:</p>
+                                <p class="card-description-value">wireframe and mockup</p>
+                            </div>
+                            <div  class="assignment-container flex flex-row gap-2 items-center" aria-hidden="true">
+                                <p class="card-assignment">Assignment:</p>
+                                <p class="card-assignment-value">Samuel</p>
+                            </div>
+                            <div class="date-container flex flex-row gap-2 items-center">
+                                <p class="card-date">Date:</p>
+                                <p class="card-date-value">2026-08-10</p>
+                            </div>
+                            <div  class="priority-container flex flex-row gap-2 items-center">
+                                
+                                <p class="card-priority">Priority:</p>
+                                <div class="w-4 h-4 bg-red-500 rounded-full"></div>
+                                <p class="card-priority-value">Urgent</p>
+                            </div>
+                            <div class="flex gap-2 mt-2">
+                                <button class="move-left bg-gray-200 px-2 rounded" data-action="move-left">←</button>
+                                <button class="move-right bg-gray-200 px-2 rounded" data-action="move-right">→</button>
+                            </div>
+                        </div>
+                        </div>
+                        <!-- planing on embedding this in the js and use an if else for ?.insertAdjacentHTML('beforeend', var name of cardContainer, cardcontainer2 and cardContainer#) using if in js; -->
+                    </div>
+                    <div id="inProgress">
+                        <h2>In Progress</h2>
+                        <div  class="cardcontainer h-screen bg-white rounded-xl shadow-xl p-4 space-y-4 text-left">
+                            <p>No task in progress</p>
+
+                        </div>
+                    </div>
+                    <div id="Done">
+                        <h2>Done</h2>
+                        <div  class="cardcontainer h-screen bg-white rounded-xl shadow-xl p-4 space-y-4 text-left">
+                            <p>No task completed</p>
+
+                        </div>
+                    </div>
+                </article>
+                
+                <button type="button" class="pop-up-btn absolute right-0 bottom-0 items-center bg-black text-white py-2 px-4 rounded-xl hover:bg-gray-700 hover:text-white focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-black">Add</button>
+            </section>
+
+            <dialog id="secondaryAdditionForm">
+
+            </dialog>
+        </main>
+    </article>
+    <script src="index.js"></script>
+    <footer>&copy; 2026</footer>
+</body>
+</html>
