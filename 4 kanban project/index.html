@@ -12,8 +12,8 @@
         <header class="space-y-2">
             <h1 class="text-center text-3xl font-bold">Kanban Board</h1>
             <h2 class="text-center text-xl font-semibold">Order Your Day With Us</h2>
-            <p id="wipCounter" class="text-sm text-gray-600 text-center hidden">Tasks in Progress: 0 / 3</p>
-            <div id="priorityLegend" class="flex gap-4 text-sm">
+            <p id="wipCounter" class="text-sm text-gray-600 text-center hidden">Tasks in Progress: <span>0</span> / 3</p>
+            <div id="priorityLegend" class="flex justify-center gap-4 text-sm">
                 <span class="flex items-center gap-1"><span class="w-3 h-3 bg-yellow-400 rounded-full inline-block"></span> Pending</span>
                 <span class="flex items-center gap-1"><span class="w-3 h-3 bg-red-500 rounded-full inline-block"></span> Urgent</span>
                 <span class="flex items-center gap-1"><span class="w-3 h-3 bg-orange-500 rounded-full inline-block"></span> Necessary</span>
@@ -31,24 +31,25 @@
                     <p class="text-red-700">&times;</p>
                 </div>
                 
-                <article id="threecolumns" class="grid grid-cols-3 text-center gap-6">
+                <article id="threecolumns" class="grid grid-cols-1 lg:grid-cols-3  text-center gap-6">
                     <div id="todo">
                         <h2 class="todo-header">Todo</h2>
-                        <div  class="cardcontainer h-screen bg-white rounded-xl shadow-xl p-4 space-y-4 text-left">
+                        <div  class="cardcontainer h-auto bg-white rounded-xl shadow-xl p-4 space-y-4 text-left">
                             <p>No task yet</p>
                             
                         <!-- planing on embedding this in the js and use an if else for ?.insertAdjacentHTML('beforeend', var name of cardContainer, cardcontainer2 and cardContainer#) using if in js; -->
                     </div>
+                    </div>
                     <div id="inProgress">
                         <h2>In Progress</h2>
-                        <div  class="cardcontainer h-screen bg-white rounded-xl shadow-xl p-4 space-y-4 text-left">
+                        <div  class="cardcontainer h-auto bg-white rounded-xl shadow-xl p-4 space-y-4 text-left">
                             <p>No task in progress</p>
 
                         </div>
                     </div>
                     <div id="Done">
                         <h2>Done</h2>
-                        <div  class="cardcontainer h-screen bg-white rounded-xl shadow-xl p-4 space-y-4 text-left">
+                        <div  class="cardcontainer h-auto  bg-white rounded-xl shadow-xl p-4 space-y-4 text-left">
                             <p>No task completed</p>
 
                         </div>
