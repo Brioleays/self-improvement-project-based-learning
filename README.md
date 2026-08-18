@@ -8,10 +8,10 @@ This repository contains all my vanilla JavaScript projects as I rebuild my fund
 
 | Project | What It Does | Status |
 |---------|--------------|--------|
-| [Counter](./1 counter/) | Simple counter with high score tracking | ✅ Done |
-| [Simon Says](./2 simon-says/) | Memory game with color patterns | ✅ Done |
-| [Weather Dashboard](./3 weather-dashboard/) | City weather search with API integration | ✅ Done |
-| [Kanban Board](./4 kanban-board/) | Task management with WIP limits | 🚧 In Progress |
+| [Counter]("./1 counter/") | Simple counter with high score tracking | ✅ Done |
+| [Simon Says]("./2 simon-says/") | Memory game with color patterns | ✅ Done |
+| [Weather Dashboard]("./3 weather-dashboard/") | City weather search with API integration | ✅ Done |
+| [Kanban Board]("./4 kanban-board/") | Task management with WIP limits | 🚧 In Progress |
 
 ---
 
