@@ -17,8 +17,9 @@ var inProgressColumnEmptyMessage = document.querySelector("#inProgress .cardcont
 var doneColumnEmptyMessage = document.querySelector("#done .cardcontainer p");
 var emptyMessages= [todoColumnEmptyMessage, inProgressColumnEmptyMessage, doneColumnEmptyMessage]
 var wipOutput = document.querySelector("#wipCounter span")
-
 var wipErrorMessageContainer = document.querySelector("#wipErrorMessageContainer");
+var threeColumns =document.querySelector("#threecolumns");
+
 function render() {
  
     // 1. If there are no cards, show the form, hide the table
@@ -94,6 +95,7 @@ if (doneCards.length > 0) {
        wipErrorMessageContainer.classList.add("hidden") 
     }
 
+   
 }
 function createCardHtml(card) {
     return `
@@ -109,7 +111,7 @@ function createCardHtml(card) {
             </div>
             <div class="priority-container flex flex-row gap-2 items-center">
                 <p class="card-priority">Priority:</p>
-                <div class="w-4 h-4 rounded-full bg-${card.priority}-500"></div>
+                <div class="w-4 h-4 rounded-full ${getPriorityColor(card.priority)}"></div>
                 <p class="card-priority-value">${card.priority}</p>
             </div>
             <div class="flex gap-2 mt-2">
@@ -119,17 +121,16 @@ function createCardHtml(card) {
         </div>`;
         
 }
-
-function formHandler(){
-    var formHtml = ` <form action="" class="flex flex-col bg-white rounded-xl shadow-xl p-4 space-y-4">
+function createFormHtml(prefix){
+    return ` <form action="" class="flex flex-col bg-white rounded-xl shadow-xl p-4 space-y-4">
                     <!-- planing on embedding this in the js and use an if else for loadedMessageContainer.insertAdjacentHTML('beforeend', var name of addingForm and secondaryAdditionForm) using if in js; -->
                     <div class="flex flex-col space-y-2">
                         <label for="title" class="font-semibold">Task Title</label>
-                        <input type="text" id="title" class="bg-gray-50 border border-gray-500 rounded-xl py-2 px-4 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-white" placeholder="e.g. Study" required>
+                        <input type="text" id="${prefix}-title" class="bg-gray-50 border border-gray-500 rounded-xl py-2 px-4 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-white" placeholder="e.g. Study" required>
                     </div>
                     <div class="flex flex-col ">
                         <label for="description" class="font-semibold">Task Description</label>
-                        <textarea name="" id="description" class="bg-gray-50 border border-gray-500 rounded-xl py-2 px-4 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-white" placeholder="e.g. read the book on growth"></textarea>
+                        <textarea name="" id="${prefix}-description" class="bg-gray-50 border border-gray-500 rounded-xl py-2 px-4 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-white" placeholder="e.g. read the book on growth"></textarea>
                     </div>
                     <!-- <button type="submit" id="optional-toggler">optionals</button> -->
                     <details id="optional-toggled">
@@ -138,16 +139,16 @@ function formHandler(){
                         <article>
                         <div class="flex flex-col ">
                             <label for="assignment">Task Assigned to:</label>
-                            <input type="text" id="assignment" class="bg-gray-50 border border-gray-500 rounded-xl py-2 px-4 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-white" placeholder="e.g. Hephzibah">
+                            <input type="text" id="${prefix}-assignment" class="bg-gray-50 border border-gray-500 rounded-xl py-2 px-4 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-white" placeholder="e.g. Hephzibah">
                         </div>
                         <div class="flex flex-col ">
                             <label for="date">Task Date</label>
-                            <input type="date" id="date" class="bg-gray-50 border border-gray-500 rounded-xl py-2 px-4 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-white" id="date">
+                            <input type="date" id="${prefix}-date" class="bg-gray-50 border border-gray-500 rounded-xl py-2 px-4 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-white" id="date">
                         </div>
 
                         <div class="flex flex-col ">
                             <label for="prioritySelector">Level of Importance</label>
-                            <select name="" id="prioritySelector">
+                            <select name="" id="${prefix}-prioritySelector">
                                 <option value="none">Select</option>
                                 <option value="urgent">Urgent tasks</option>
                                 <option value="necessary">Necessary tasks</option>
@@ -160,15 +161,23 @@ function formHandler(){
                     </details>
                     <button type="submit" class="submit-btn items-center bg-black text-white py-2 px-4 rounded-xl hover:bg-gray-700 hover:text-white focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-black">Add</button>
                 </form>`;
-                mainForm.innerHTML = formHtml;  // insert the HTML
-                var form = mainForm.querySelector("form");  // get the real form element
-                form.addEventListener("submit", function(event) { 
+}
+var mainFormHtml = createFormHtml("main");
+var popupFormHtml = createFormHtml("popup");
+function formHandler(){
+                
+                mainForm.innerHTML = mainFormHtml;  // insert the HTML
+                var mainFormElement = mainForm.querySelector("form");  // get the real form element
+                
+                mainFormElement.addEventListener("submit", function(event) { 
                     event.preventDefault();
-                    var title = event.target.querySelector("#title").value;
-                    var description = event.target.querySelector("#description").value;
-                    var assignment = event.target.querySelector("#assignment").value;
-                    var date = event.target.querySelector("#date").value;
-                    var prioritySelector = event.target.querySelector("#prioritySelector").value;
+                    var title = event.target.querySelector("#main-title").value;
+                    var description = event.target.querySelector("#main-description").value;
+                    var assignment = event.target.querySelector("#main-assignment").value;
+                    var date = event.target.querySelector("#main-date").value;
+                    var prioritySelector = event.target.querySelector("#main-prioritySelector").value;
+                     //location
+                    
                     var newCard = {
                         id: Date.now(),
                         title: title,
@@ -178,16 +187,117 @@ function formHandler(){
                         status: 'todo',
                         priority: prioritySelector
                     };
+                    if (prioritySelector ==='pending'){
+                        newCard.status = "inProgress"
+                    }else if (prioritySelector ==='completed'){
+                        newCard.status = "done"
+                    }
                     state.cards.push(newCard);
                     localStorage.setItem('kanbanCards', JSON.stringify(state.cards));
-                    form.reset();
+                    mainFormElement.reset()
                     render();
 })
+      var popupBtn = document.querySelector(".pop-up-btn");
+        // get the real form element
+    popupBtn.addEventListener("click", function(event){
+        popUpForm.innerHTML = popupFormHtml;
+        popUpForm.showModal();  // insert the HTML
+                var popupFormElement = popUpForm.querySelector("form");
+                
+                popupFormElement.addEventListener("submit", function(event) { 
+                    event.preventDefault();
+                    var title = event.target.querySelector("#popup-title").value;
+                    var description = event.target.querySelector("#popup-description").value;
+                    var assignment = event.target.querySelector("#popup-assignment").value;
+                    var date = event.target.querySelector("#popup-date").value;
+                    var prioritySelector = event.target.querySelector("#popup-prioritySelector").value;
+                    var newCard = {
+                        id: Date.now(),
+                        title:title,
+                        description: description,
+                        assignment: assignment,
+                        date: date,
+                        status: 'todo',
+                        priority: prioritySelector
+                    };
+                    if (prioritySelector ==='pending'){
+                        newCard.status = "inProgress"
+                    }else if (prioritySelector ==='completed'){
+                        newCard.status = "done"
+                    }
+                    state.cards.push(newCard);
+                    localStorage.setItem('kanbanCards', JSON.stringify(state.cards));
+                    popupFormElement.reset()
+                    popUpForm.close();
+                    render();
+                })})
 }
-//it worked in the normal ui
+
+
+threeColumns.addEventListener("click", function(event){
+    var action = event.target.closest('button').dataset.action
+    var movingByIdData = event.target.closest('button').dataset.id
+    var cardId = Number(movingByIdData);
+    var foundCard = state.cards.find(function(card) {
+        return card.id === cardId;
+    });
+    
+    if (action === "delete") {
+        state.cards=state.cards.filter(function(card){
+            return card.id !== cardId
+        })
+        localStorage.setItem('kanbanCards', JSON.stringify(state.cards));
+        render()
+    }
+
+    if (action === "move-left" ) {
+        if (foundCard.status==='done'){
+             foundCard.status='inProgress'
+       }else if (foundCard.status==='inProgress'){
+             foundCard.status ='todo'
+       }
+       localStorage.setItem('kanbanCards', JSON.stringify(state.cards));
+        render();
+    }
+    if (action === "move-right") {
+        
+         if (foundCard.status==='todo'){
+            var count = 0
+           state.cards.forEach(function(card) {
+            if (card.status === "inProgress") {
+                count++;
+                }
+            });
+            if (count>=state.wipLimit){
+                wipErrorMessageContainer.classList.remove('hidden');
+                return;
+            }
+            foundCard.status ="inProgress"
+        
+    }else if (foundCard.status === 'inProgress') {
+        foundCard.status = 'done';
+    }
+
+    
+    localStorage.setItem('kanbanCards', JSON.stringify(state.cards));
+    render();
+    }
+
+})
+function getPriorityColor(priority) {
+    if (priority === 'pending') return 'bg-yellow-400';
+    if (priority === 'urgent') return 'bg-red-500';
+    if (priority === 'necessary') return 'bg-orange-500';
+    if (priority === 'side') return 'bg-blue-500';
+    if (priority === 'completed') return 'bg-green-500';
+    return 'bg-gray-400';
+}
+
+//it worked in the console
 var savedCards = localStorage.getItem('kanbanCards');
 if (savedCards) {
     state.cards = JSON.parse(savedCards);
 }
+
 formHandler();
 render()

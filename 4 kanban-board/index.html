@@ -7,7 +7,7 @@
     <style type="text/tailwindcss"></style>
     <script src="https://cdn.tailwindcss.com"></script> 
 </head>
-<body class="bg-gray-50 flex flex-col h-screen items-center justify-center space-y-20">
+<body class="bg-gray-50 flex flex-col h-screen items-center justify-center space-y-20 h-full overflow-y-scroll ">
     <article class="space-y-8">
         <header class="space-y-2">
             <h1 class="text-center text-3xl font-bold">Kanban Board</h1>
@@ -31,7 +31,7 @@
                     <p class="text-red-700">&times;</p>
                 </div>
                 
-                <article id="threecolumns" class="grid grid-cols-1 lg:grid-cols-3  text-center gap-6">
+                <article id="threecolumns" class="grid grid-cols-1 lg:grid-cols-3  h-96  text-center gap-6">
                     <div id="todo">
                         <h2 class="todo-header">Todo</h2>
                         <div  class="cardcontainer h-auto bg-white rounded-xl shadow-xl p-4 space-y-4 text-left">
@@ -42,7 +42,7 @@
                     </div>
                     <div id="inProgress">
                         <h2>In Progress</h2>
-                        <div  class="cardcontainer h-auto bg-white rounded-xl shadow-xl p-4 space-y-4 text-left">
+                        <div  class="cardcontainer  bg-white rounded-xl shadow-xl p-4 space-y-4 text-left">
                             <p>No task in progress</p>
 
                         </div>
