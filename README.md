@@ -4,15 +4,13 @@ This repository contains all my vanilla JavaScript projects as I rebuild my fund
 
 ---
 
-## 🗺️ Projects
-
 | Project | What It Does | Status |
 |---------|--------------|--------|
-| [Counter](./1%20counter/) | Simple counter with high score tracking | ✅ Done |
-| [Simon Says](./2%20simon-says/) | Memory game with color patterns | ✅ Done |
-| [Weather Dashboard](./3%20weather-dashboard/) | City weather search with API integration | ✅ Done |
-| [Kanban Board](./4%20kanban-board/) | Task management with WIP limits | 🚧 In Progress |
-
+| [Counter](./counter/) | Simple counter with high score tracking | ✅ Done |
+| [Simon Says](./simon-says/) | Memory game with color patterns | ✅ Done |
+| [Weather Dashboard](./weather-dashboard/) | City weather search with API integration | ✅ Done |
+| [Kanban Board](./kanban-board/) | Task management with WIP limits | ✅ Done |
+| [Personal Expense Tracker](./expense-tracker/) | Expense management and savings tracker | 🚧 Coming Soon |
 ---
 
 ## 📦 What I'm Learning
