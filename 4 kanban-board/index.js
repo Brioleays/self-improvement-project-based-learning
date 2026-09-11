@@ -201,7 +201,7 @@ function formHandler(){
         // get the real form element
     popupBtn.addEventListener("click", function(event){
         popUpForm.innerHTML = popupFormHtml;
-        popUpForm.showModal();  // insert the HTML
+         popUpForm.showModal();  // insert the HTML
                 var popupFormElement = popUpForm.querySelector("form");
                 
                 popupFormElement.addEventListener("submit", function(event) { 

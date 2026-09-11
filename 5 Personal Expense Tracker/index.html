@@ -4,22 +4,134 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Personal Expense Tracker</title>
-    <style type="text/tailwindcss"></style>
+    <style>
+        .shadow-full{
+           box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        }
+    </style>
     <script src="https://cdn.tailwindcss.com"></script> 
 </head>
-<body class="">
-    <article class="p-20">
+<body >
+    <article class="p-4 sm:p-6 lg:p-10 space-y-10">
         <header>
-            <h1 class="text-4xl text-center font-Bold">Personal Expense Tracker</h1>
+            <h1 class="text-4xl text-center font-bold">Personal Expense Tracker</h1>
         </header>
-        <Main class="flex items-center">
-            <div id="gridTerritory">
-                <div class="metricsSummary"></div>
-                <div class="addExpense"></div>
-                <div class="viewExpense"></div>
-                <div class="totalNgnDols"></div>
+        <main class="flex items-center w-full">
+            <div id="gridTerritory" class="grid grid-cols-1  py-8 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+                <div class="metricsSummary col-span-1 md:col-span-2 lg:col-span-3 flex flex-col sm:flex-row
+            justify-evenly items-center gap-6  border border-gray-50 border-2  items-center shadow-full rounded-2xl py-4">
+                    <div class="totalPerMonth text-center md:text-left">
+                        <P class="text-4xl font-bold">0 <span class="text-xl text-gray-500">Ngn</span></P>
+                        <h3 class="text-gray-600 text-md text-wrap">Total Per Month</h3>
+                    </div>
+                    
+                    <div class="highestCategory text-center md:text-left">
+                        <P class="text-4xl font-bold">None</P>
+                        <h3 class="text-gray-600 text-md text-wrap">Highest Category</h3>
+                    </div>
+                    <div class="numberOfTransaction text-center md:text-left">
+                        <p class="text-4xl font-bold">0</p>
+                        <h3 class="text-gray-600 text-md text-wrap">Number Of Transactions</h3>
+                    </div>
+                </div>
+                <div class="addExpense md:row-span-2 col-span-1 md:col-span-2 lg:col-span-1 border border-gray-50 border-2 items-center shadow-full p-8 space-y-4 rounded-2xl">
+                    <div class="flex flex-col justify-center">
+                        <h4 class="text-center text-2xl font-bold text-gray-600">Add Expense</h4>
+                        <div id="priorityLegend" class="flex justify-center gap-4 text-sm">
+                            <span class="flex items-center gap-1"><span class="w-3 h-3 bg-red-400 rounded-full inline-block"></span> credit</span>
+                            <span class="flex items-center gap-1"><span class="w-3 h-3 bg-green-500 rounded-full inline-block"></span> debit</span>
+                        </div>
+                    </div>
+                    <form action="" class="addExpenseInput">
+                        <div class="space-y-2">
+                            <div class="categoryInput inline-flex flex-col space-y-2">
+                                <label for="category" class="text-xl font-semibold">Category</label>
+                                <select name="" id="category" class="bg-gray-50 border border-gray-500 rounded-xl py-2 px-4 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-white" required>
+                                    <option value="None"></option>
+                                    <option value="food">Food</option>
+                                    <option value="transportation">Transportation</option>
+                                    <option value="rent">rent</option>
+                                    <option value="others">others</option>
+                                </select>
+                            </div>
+                            <div class="otherCategoryInput flex flex-col space-y-2 hidden">
+                                <label for="others" class="text-xl font-semibold">Others</label>
+                                <input type="text" id="others" class="w-full bg-gray-50 border border-gray-500 rounded-xl py-2 px-4 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-white" placeholder="add personal category e.g books" required>
+                            </div>
+                            <div class="amountInput flex flex-col space-y-2">
+                                <label for="amount" class="text-xl font-semibold">Amount <span class="text-sm font-normal text-gray-600">(Ngn)</span></label>
+                                <input type="number" id="amount"  class="w-full bg-gray-50 border border-gray-500 rounded-xl py-2 px-4 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-white" placeholder="e.g. 3000" required>
+                            </div>
+                            <div class="recipientInput flex flex-col space-y-2">
+                                <label for="recipient" class="text-xl font-semibold">Recipient</label>
+                                <input type="text" id="recipient" class="w-full bg-gray-50 border border-gray-500 rounded-xl py-2 px-4 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-white" placeholder="e.g. Study" required>
+                            </div>
+                            <div class="dateInput flex flex-col space-y-2">
+                                <label for="date" class="text-xl font-semibold">Date</label>
+                                <input type="date" id="date" class="w-full bg-gray-50 border border-gray-500 rounded-xl py-2 px-4 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-white" required>
+                            </div>
+                            <div class="transactionTypeInput flex flex-col space-y-2">
+                                <label for="transactionType" class="text-xl font-semibold">Transaction Type</label>
+                                <select name="" id="transactionType" class="w-full bg-gray-50 border border-gray-500 rounded-xl py-2 px-4 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-white" required>
+                                    <option value="credit">Credit</option>
+                                    <option value="debit">Debit</option>
+                                </select>
+                            </div>
+                        </div>
+                        <button type="submit" class="addExpenseSubmit mt-4 submit-btn items-center bg-black text-white py-2 px-4 rounded-xl hover:bg-gray-700 hover:text-white focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-black">Submit</button>
+                    </form>
+                </div>
+                <div class="viewExpense col-span-1 md:col-span-2 border border-gray-50 border-2 items-center shadow-full p-8 space-y-4 rounded-2xl overflow-x-auto">
+                    <div class="searchBox flex flex-rows space-x-6 md:justify-between items-center">
+                        <div class="viewExpenseFilter flex flex-rows space-x-2 items-center">
+                             <label for="filter" class="text-xl">Filter:</label>
+                            <select name="" id="filter" class="viewExpenseFilterInput px-2 py-2 border border-black rounded-xl focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-white">
+                                <option value="all">All</option>
+                                <option value="category">Category</option>
+                                <option value="recipient">Recipient</option>
+                                <option value="amount">Amount</option>
+                            </select>
+                        </div>
+                        <form action="/search" id="filterSearch" class="flex flex-rows">
+                            <label for="search-input" class="sr-only">Search</label>
+                            <div class="flex flex-col items-center space-y-4">
+                                <div class="searchInput flex flex-rows space-x-4">
+                                    <input type="text" name="cityName" id="search-input" class="px-2 py-2 border border-black rounded-xl focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-white" autocomplete="off" >
+                                    <button class="searchBtn bg-black text-white p-2 rounded-xl hover:bg-gray-700 hover:text-white focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-black" type="button">search</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                     <div class="header min-w-[600px] font-bold flex flex-row justify-between">
+                        <p>S/N</p>
+                        <p>Category</p>
+                        <p>Amount</p>
+                        <p>Recipient</p>
+                        <p>Date</p>
+                    </div>
+                    <hr>
+                    
+                    <div  class="header min-w-[600px] viewExpenseContent">
+                        
+                    </div>
+                </div>
+                <div class="totalNgnDols col-span-1 md:col-span-2 border border-gray-50 border-2 items-center shadow-full p-8 space-y-4 rounded-2xl">
+                    <h4 class="text-center text-2xl font-bold text-gray-600">Total conversion</h4>
+                    <div class="flex justify-evenly items-center">
+                        <div class="totalNgn">
+                            <h5 class="text-gray-600 text-xl">Naira <span class="rate text-gray-600 text-sm">0</span></h5>
+                            <p class="text-4xl font-bold">0</p>
+                        </div>
+                        <div class="totalDols">
+                            <h5 class="text-gray-600 text-xl">dollar <span class="rate text-gray-600 text-sm">0</span></h5>
+                            <p class="text-4xl font-bold">0</p>
+                        </div>
+                        
+                    </div>
+                </div>
+
             </div>
-        </Main>
+        </main>
     </article>
     <script src="index.js"></script>
     <footer class="text-center">&copy; 2026</footer>
