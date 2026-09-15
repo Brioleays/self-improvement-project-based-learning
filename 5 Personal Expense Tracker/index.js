@@ -13,6 +13,7 @@ var viewExpenseErrorStatement = document.querySelector(".error-statement")
 var totalPerMonth = document.querySelector(".metricsSummary .totalPerMonth");
 var highestCategory =  document.querySelector(".metricsSummary .highestCategory");
 var numberOfTransaction = document.querySelector(".metricsSummary .numberOfTransaction");
+var form = document.querySelector(".addExpenseInput");
 var categoryInput = document.querySelector(".addExpenseInput div .categoryInput");
 var otherCategoryInput = document.querySelector(".addExpenseInput div .otherCategoryInput");
 var amountInput = document.querySelector(".addExpenseInput div .amountInput");
@@ -31,13 +32,21 @@ var dolsConversionIncrease = document.querySelector(".totalNgnDols .totalDols h5
 var totalDols = document.querySelector(".totalNgnDols .totalDols p");
 var viewExpenseContent = document.querySelector(".viewExpense .viewExpenseContent")
 
+
+
 function render() {
     // 1. Calculate totalPerMonth from state.expenses
     
-    var total = state.expenses.reduce(function(sum, expense){
-        return sum + expense.amount
-     }, 0) //the first is the accumulator and it is initialized out side the curly bracket after a comma
-     totalPerMonth.textContent = total
+     //the first is the accumulator and it is initialized out side the curly bracket after a comma
+     
+     var total = state.expenses.reduce(function(sum, expense) {
+    if (expense.transactionType === 'credit') {
+        return sum + expense.amount;
+    } else {
+        return sum - expense.amount;
+    }
+    }, 0);
+    totalPerMonth.textContent = total
     // 2. Calculate highestCategory from state.expenses
         // 1. Create empty object for category counts
         // 2. Loop through state.expenses
@@ -45,7 +54,7 @@ function render() {
         // 4. If not, set it to 1
         // 5. Find the category with the highest count
         // 6. Set highestCategory.textContent to that category
-     categoryCount ={}
+     var categoryCount ={}
      state.expenses.forEach(function(expense){
         if(categoryCount[expense.category]){
             categoryCount[expense.category]+=1   
@@ -79,24 +88,32 @@ function render() {
     });
     // 6. Clear the viewExpense list
     viewExpenseContent.innerHTML =""
-    console.log("filteredExpenses:", filteredExpenses);
-    console.log("viewExpenseContent:", viewExpenseContent);
-    console.log("filteredExpenses length:", filteredExpenses.length);
         if (filteredExpenses.length === 0) {
             viewExpenseContent.insertAdjacentHTML('beforeend', '<p>No Expense yet</p>');
         } else{
             filteredExpenses.forEach(function (expenseDetail){
-            var eachLines = `
-            <div class="header min-w-[600px] flex flex-row justify-between">
-                                <p>${expenseDetail.id}</p>
-                                <p>${expenseDetail.category}</p>
-                                <p>${expenseDetail.amount}</p>
-                                <p>${expenseDetail.recipient}</p>
-                                <p>${expenseDetail.date}</p>
-                            </div>
-            `;
-            viewExpenseContent.insertAdjacentHTML('beforeend', eachLines);
+                var amountClass = ""
+                var sign = ""
+                if (expenseDetail.transactionType==="credit"){
+                    amountClass='text-green-500'
+                    sign='+'
+                }else{
+                    amountClass='text-red-500'
+                    sign='-'
+                }
+                var eachLines = `
+                    <div class="header min-w-[600px] flex flex-row justify-between">
+                                        <p>${expenseDetail.id}</p>
+                                        <p>${expenseDetail.category}</p>
+                                        <p class="${amountClass}">${sign}${expenseDetail.amount}</p>
+                                        <p>${expenseDetail.recipient}</p>
+                                        <p>${expenseDetail.date}</p>
+                                    </div>
+                `;
+                viewExpenseContent.insertAdjacentHTML('beforeend', eachLines);
               })
+        
+              
         }
   
      
@@ -107,14 +124,69 @@ function render() {
     // 8. If not empty, build and insert expense rows
     
     // 9. Calculate totalNgn and totalDols
-    totalNgn.textContent = total
+    totalNgn.textContent = total;
+    if (state.exchangeRate.naira) {
+        ngnConversionIncrease.textContent = `${state.exchangeRate.naira.toFixed(2)} Ngn`;
+        dolsConversionIncrease.textContent = `${(1 / state.exchangeRate.naira).toFixed(6)} Usd`;
+        totalDols.textContent = (total / state.exchangeRate.naira).toFixed(2);
+    } else {
+        ngnConversionIncrease.textContent = "Loading...";
+        dolsConversionIncrease.textContent = "";
+        totalDols.textContent = "—";
+    }
     // 10. Update conversion display
     // 11. Apply red/green indicators based on increase/decrease
 
 }
-function formHandler (){
+form.addEventListener("submit", function formHandler(event) {
+    event.preventDefault();
+     var categorySelect = document.querySelector("#category");
+    var amountField = document.querySelector("#amount");
+    var recipientField = document.querySelector("#recipient");
+    var dateField = document.querySelector("#date");
+    var transactionTypeSelect = document.querySelector("#transactionType");
+    var otherCategoryField = document.querySelector("#others");
+    var category = categorySelect.value.trim();
+    var otherCategory = otherCategoryField.value.trim();
+    var amount= Number(amountField.value);
+    var recipient = recipientField.value.trim();
+    var date = dateField.value.trim();
+    var transactionType = transactionTypeSelect.value.trim();
     
-}
-async function conversionRate(){
+    var newExpense = {
+                        id: Date.now(),
+                        category: category || otherCategory,
+                        amount: amount,
+                        recipient: recipient,
+                        date: date, 
+                        transactionType:transactionType                       
+                    };
+     state.expenses.push(newExpense);
+                    localStorage.setItem('expenses', JSON.stringify(state.expenses));
+                    form.reset();
+                    render();
 
+} )
+
+var savedExpenses = localStorage.getItem('expenses');
+if (savedExpenses) {
+    state.expenses = JSON.parse(savedExpenses);
 }
+
+async function conversionRate(){
+    var conversionUrl = `https://open.er-api.com/v6/latest/USD`;
+    var conversionResponse = await fetch(conversionUrl);
+    var conversionData = await conversionResponse.json();
+    if (!conversionData.rates || !conversionData.rates.NGN){
+            state.status = "error";
+            state.errorMessage = "rates not found.";
+            render();
+            return; //so this will make it not run anymore it will stop here
+        }
+    var USDrate = conversionData.rates.USD;
+    var NgNrate =conversionData.rates.NGN;
+    state.exchangeRate.naira=NgNrate;
+    state.exchangeRate.usd=USDrate;
+    render();
+}
+conversionRate();
