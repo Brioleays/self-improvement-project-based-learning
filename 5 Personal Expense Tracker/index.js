@@ -7,7 +7,9 @@ state = {
             //  recipient: 'Mama Put'}
     status: 'empty', //'empty'|'loaded'|'filtered'|'loading'
     exchangeRate: {}, //naira: 1, usd: 1600 
-    currentFilter: 'all' //all | recipient |category
+    currentFilter: 'all', //all | recipient |category
+    filterField:'', //all|category|amount|recipient
+    filterValue:'',
 };
 var viewExpenseErrorStatement = document.querySelector(".error-statement")
 var totalPerMonth = document.querySelector(".metricsSummary .totalPerMonth");
@@ -81,11 +83,22 @@ function render() {
     
     // 5. Apply currentFilter to decide which expenses to show
     var filteredExpenses = state.expenses.filter(function(expense) {
-        if (state.currentFilter === 'all') {
+        if (state.filterField === '') {
             return true;
         }
-        return expense.category === state.currentFilter;
+        if (state.filterField === "category"){
+            return expense.category === state.filterValue;
+        }
+        if (state.filterField === "recipient") {
+            return expense.recipient === state.filterValue;
+        }
+        if (state.filterField === "amount") {
+            return expense.amount === Number(state.filterValue);
+        }
+        return true;
     });
+
+
     // 6. Clear the viewExpense list
     viewExpenseContent.innerHTML =""
         if (filteredExpenses.length === 0) {
@@ -115,8 +128,7 @@ function render() {
         
               
         }
-  
-     
+    
     
    
     
@@ -134,7 +146,11 @@ function render() {
         dolsConversionIncrease.textContent = "";
         totalDols.textContent = "—";
     }
+
+     
+
     // 10. Update conversion display
+
     // 11. Apply red/green indicators based on increase/decrease
 
 }
@@ -173,6 +189,8 @@ if (savedExpenses) {
     state.expenses = JSON.parse(savedExpenses);
 }
 
+
+
 async function conversionRate(){
     var conversionUrl = `https://open.er-api.com/v6/latest/USD`;
     var conversionResponse = await fetch(conversionUrl);
@@ -189,4 +207,16 @@ async function conversionRate(){
     state.exchangeRate.usd=USDrate;
     render();
 }
+    viewExpenseFilterInput.addEventListener("change", function(event) {
+        state.filterField = event.target.value
+        render()
+    });
+    filterSearchBtn.addEventListener("click", function() {
+        state.filterValue = filterSearchInput.value.trim();
+        render();
+    });
+        
+        
+
+
 conversionRate();
