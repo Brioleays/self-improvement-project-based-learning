@@ -111,6 +111,20 @@ Used once to look up `Object.keys` + `forEach` patterns for finding the highest 
 5. Write a 1-page explanation of every concept used. If I can't explain it, I don't own it.
 
 ---
+## Concepts Introduced
+
+- `reduce` for summing with conditional logic
+- `Object.keys()` + `forEach` for object iteration
+- Multi-field filtering (`filterField` + `filterValue`)
+- Async guard patterns (checking data before rendering)
+- `toFixed()` for formatting currency
+- `insertAdjacentHTML()` for dynamic rendering
+- Live API fetch with `await`
+
+## Why the Refactor Failed
+
+Attempted to split `render()` into `calculateSummary()`, `filterExpenses()`, and `buildRows()`. Broke the working version. Reverted to ship. Lesson: refactor after shipping, not during.
+---
 
 ## Did I Finish It?
 
