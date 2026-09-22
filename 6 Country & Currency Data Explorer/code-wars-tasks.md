@@ -15,10 +15,9 @@ For Project 6, here are the core patterns. Master these in katas first, then app
 
 **Katas to search:**
 - "Fake Binary" ✅ (done)
-- "Convert a string to an array"
-- "Array.diff" (mixed with filter)
-- "Square(n) Sum"
-- "Double Every Other"
+- "Convert a string to an array" ✅ (done)
+- "Square(n) Sum" ✅ (done)
+- "Double Every Other" ✅ (done)
 
 ---
 
@@ -32,11 +31,11 @@ For Project 6, here are the core patterns. Master these in katas first, then app
 - Combining filter + search
 
 **Katas to search:**
+- Sum of positives ✅ (done)
 - "List Filtering" ✅ (done)
 - "Filter out the geese" ✅ (done)
 - "Array.diff"✅ (done)
-- "Find numbers which are divisible by given number" (next in queue)
-- "Removing Elements"
+- "Removing Elements" ✅ (done)
 
 ---
 
@@ -54,8 +53,8 @@ For Project 6, here are the core patterns. Master these in katas first, then app
 - "Find the smallest integer" ✅
 - "Sum Arrays"
 - "Average of numbers"
-- "Calculate average"
-- "Sum of Minimums"
+- "Calculate average" 
+- "Sum of Minimums" ✅ (done)
 - "Maximum Multiple"
 
 ---
@@ -67,12 +66,11 @@ For Project 6, here are the core patterns. Master these in katas first, then app
 **Where you'll use it in Project 6:**
 - Sort by population (high to low / low to high)
 
-**Katas to search:**
-- "Sort Numbers"
-- "Sort array by string length"
-- "Sort by Last Char"
-- "Sort the Gift Code"
-- "Sort arrays - 1"
+- Sort Numbers (7kyu) — numeric sort with comparator (warm-up, sort only) ✅ (done)
+- Sort array by string length (7kyu) — sort by .length ✅ (done)
+- Sort by Last Char (7kyu) — split + sort + join ✅ (done)
+- Sum Arrays (8kyu) — reduce ✅ (done)
+- Sum of Two Lowest (7kyu) — sort numeric + take two + add  (sort + slice + reduce)
 
 **The critical lesson:** `[1, 10, 2].sort()` returns `[1, 10, 2]` (wrong). You need `[1, 10, 2].sort((a, b) => a - b)` to get `[1, 2, 10]`.
 
