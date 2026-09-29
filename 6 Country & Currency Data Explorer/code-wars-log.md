@@ -96,3 +96,31 @@ Sum of Minimums was the first kata that felt satisfying instead of confusing. Pa
 - What I learned:
   - sort numeric + take first two = find smallest values
   - `.sort()` mutates the original array (copy with `[...arr]` if you need to preserve it)
+## Kata: Object to Array and Array to Object
+- Level: 6kyu
+- Patterns used: forEach, Object.keys, isNaN, Number, nested loops
+- What I learned:
+  - Object.keys() returns an array of keys
+  - Object keys are ALWAYS strings
+  - isNaN(Number(key)) checks if key is a non-numeric string
+  - Two loops: outer over keys, inner to repeat
+  - Arrays and objects convert in both directions with the right loop structure
+  - Stretched me — took longer than the previous katas
+  ## Kata: Remove duplicates from list
+- Level: 8kyu
+- Patterns used: Set, spread operator
+- What I learned:
+  - Set holds unique values only
+  - `new Set(arr)` removes duplicates
+  - `[...set]` converts back to array
+  - Sets use `.size` not `.length`
+  - Sets compare by reference for objects — only works well for primitives
+  ## Kata: Simple Remove Duplicates
+- Level: 7kyu
+- Patterns used: Set, backward loop, reverse
+- What I learned:
+  - Looping backward finds the LAST occurrence of each value
+  - Set tracks what's already been seen
+  - Reverse restores original order after the backward loop
+  - `if if` typo cost me one iteration
+  - Loop conditions: `i >= 0` for backward loops, not `i < length`

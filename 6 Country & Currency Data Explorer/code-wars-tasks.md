@@ -90,6 +90,8 @@ For Project 6, here are the core patterns. Master these in katas first, then app
 - "Get key/value pairs as arrays"
 - "Object values"
 - "Convert Hash to an Array"
+- Remove duplicates from list (8kyu)
+- Simple remove duplicates (7kyu)
 
 ---
 
