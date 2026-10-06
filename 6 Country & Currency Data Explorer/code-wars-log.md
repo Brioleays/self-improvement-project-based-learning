@@ -124,3 +124,20 @@ Sum of Minimums was the first kata that felt satisfying instead of confusing. Pa
   - Reverse restores original order after the backward loop
   - `if if` typo cost me one iteration
   - Loop conditions: `i >= 0` for backward loops, not `i < length`
+## Kata: Sum of Digits / Digital Root
+- Level: 6kyu
+- Patterns used: recursion, for...of, reduce, split, map
+- What I learned:
+  - Recursion needs: (1) base case, (2) recursive case
+  - Numbers aren't iterable — convert to string first
+  - `for...in` returns indices, `for...of` returns values
+  - Inner function should use its parameter, not the outer variable
+  - Loop variables need to reset between recursive calls
+  - Must `return` the recursive call, not just call it
+- Mistakes I made:
+  - Tried to loop a raw number
+  - Used `for...in` expecting values
+  - Result array never reset
+  - Inner function looked back at outer `n`
+  - Missing return
+- Self-caught all bugs before sending
