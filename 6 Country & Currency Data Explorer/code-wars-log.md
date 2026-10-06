@@ -141,3 +141,9 @@ Sum of Minimums was the first kata that felt satisfying instead of confusing. Pa
   - Inner function looked back at outer `n`
   - Missing return
 - Self-caught all bugs before sending
+## Day 5 Progress
+- Attempted duplicateCount three times
+- Failed with Set+includes pattern (wrong)
+- Failed with filter+includes pattern (wrong)
+- Solved with Set+filter (correct but didn't learn tallying)
+- Lesson: read problem first, plan in English, then code
