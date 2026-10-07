@@ -147,3 +147,17 @@ Sum of Minimums was the first kata that felt satisfying instead of confusing. Pa
 - Failed with filter+includes pattern (wrong)
 - Solved with Set+filter (correct but didn't learn tallying)
 - Lesson: read problem first, plan in English, then code
+## Kata: Counting Duplicates
+- Level: 6kyu
+- Patterns used: tallying into an object, for...of, mid-loop condition
+- What I learned:
+  - Tallying: use an object as a dictionary
+  - `object[char] === undefined` checks if a key is missing
+  - Increment or initialize based on that check
+  - Mid-loop condition `=== 2` acts as a one-time gatekeeper
+  - Explicit `if/else` beats cryptic shorthand when learning
+- Mistake I made: tried Set+filter first, avoided tallying
+- Lesson: read the problem, plan in English, then code
+- Insight: the `=== 2` condition counts each duplicate exactly once
+- `> 1` would re-count on every repeat — wrong answer, and touches the same data multiple times
+- Applied complexity thinking: one pass is better than two
