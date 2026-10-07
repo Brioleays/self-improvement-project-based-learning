@@ -161,3 +161,11 @@ Sum of Minimums was the first kata that felt satisfying instead of confusing. Pa
 - Insight: the `=== 2` condition counts each duplicate exactly once
 - `> 1` would re-count on every repeat — wrong answer, and touches the same data multiple times
 - Applied complexity thinking: one pass is better than two
+
+## CodeWars Week — Retrospective
+- Total days: 7
+- Total katas: ~20
+- Patterns learned: map, filter, reduce, sort, Object.keys/values, Set, tallying, recursion, chaining, for...of
+- Wasted day: Day 6 (three failed duplicateCount attempts)
+- Recovery: Day 7 solved it correctly with complexity reasoning
+- Next: Project 6 — Country & Currency Data Explorer
