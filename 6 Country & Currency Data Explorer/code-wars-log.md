@@ -164,7 +164,7 @@ Sum of Minimums was the first kata that felt satisfying instead of confusing. Pa
 
 ## CodeWars Week — Retrospective
 - Total days: 7
-- Total katas: ~20
+- Total katas: 22
 - Patterns learned: map, filter, reduce, sort, Object.keys/values, Set, tallying, recursion, chaining, for...of
 - Wasted day: Day 6 (three failed duplicateCount attempts)
 - Recovery: Day 7 solved it correctly with complexity reasoning
