@@ -1,20 +1,143 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title></title>
-    <style>
-        .shadow-full{
-           box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-        }
-    </style>
-    <script src="https://cdn.tailwindcss.com"></script> 
-</head>
-<body >
-   
-    <script src="index.js"></script>
-    <footer class="text-center">&copy; 2026</footer>
-    
-</body>
-</html>
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Country & Currency Data Explorer</title>
+        <style>
+            .shadow-full{
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            }
+        </style>
+        <script src="https://cdn.tailwindcss.com"></script> 
+    </head>
+    <body >
+        <main class="max-w-7xl mx-auto px-4 flex flex-col items-center justify-center space-y-10 min-h-screen">
+            <section id="summary" class="w-full rounded-xl py-10 px-10 flex flex-row items-center justify-evenly shadow-full md:max-w-3xl" aria-label="Country statistics summary">
+                <div class="totalCountries text-center">
+                    <p class="tcHeader text-base">Total Countries</p>
+                    <p class="tcValue text-5xl font-bold" aria-live="polite">0</p>
+                </div>
+                <div class="totalPopulation text-center">
+                    <p class="tpHeader text-base">Total Population</p>
+                    <p class="tpValue text-5xl font-bold" aria-live="polite">0</p>
+                </div>
+                <div class="highestPopulation text-center">
+                    <p class="hpHeader text-base">Highest Population</p>
+                    <p class="hpValue text-5xl font-bold" aria-live="polite">None</p>
+                </div><!--though i am going to put all this in a function in the javascript so it will be updated while this will be shown until the data is on but when it is on and it is reloaded it will get hidden and the one in the js will come on i don't know if that will work but that is the though i have but aside from that the design for the part you requested for is done-->
+            </section>
+            <section id="details" class="max-w-7xl rounded-xl py-10 px-10 flex flex-col items-center space-y-10 shadow-full">
+                <form class="filterRow flex flex-row items-center space-x-10" role="search">
+                    <div class="filterByRegion text-center flex flex-col space-y-2">
+                        <label for="fbrinput" class="text-base">Filter By Region</label>
+                        <select id="fbrinput" class="px-8 border border-black rounded-lg focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-white" >
+                            <!--from the api-->
+                            <option value="all">All Regions</option>
+                        </select>
+                    </div>
+                    <div class="population text-center flex flex-col space-y-2">
+                        <label for="pinput" class="text-base">Population</label>
+                        <select id="pinput" class="px-8 border border-black rounded-lg focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-white" >
+                            <option value="none">None</option>
+                            <option value="highToLow">High to Low</option>
+                            <option value="lowToHigh">Low to High</option>
+                        </select>
+                    </div>
+                    <div class="searchByName text-center flex flex-col items-center">
+                        <label for="sbnInput" class="text-base">Search By Name</label>
+                        <div class="search items-center ">
+                            <input id="sbnInput" class="px-8 border border-black rounded-lg focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-white" autocomplete="off">
+                            <button class="searchBtn bg-black text-white p-2 rounded-xl ml-2 hover:bg-gray-700 hover:text-white focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-black" type="button" disabled>Search</button><!--disable will be removed in render in js-->
+                        </div>    
+                    </div>
+                </form>
+                
+                <div class="fetchedContent w-full overflow-x-auto rounded-lg shadow-sm border border-gray-100" aria-label="List of countries with flag, name, region, and population">
+                   
+                    <table class="w-full border-collapse text-sm text-left text-gray-600">
+                        
+                       
+                        <thead class="bg-gray-50 border-b border-gray-200 text-gray-700 font-semibold">
+                            <tr>
+                                <th class="p-4" scope="col">Flag</th>
+                                <th class="p-4" scope="col">Name</th>
+                                <th class="p-4" scope="col">Region</th>
+                                <th class="p-4" scope="col">Population</th>
+                                <th class="p-4" scope="col">View More</th>
+                            </tr>
+                        </thead>
+                        
+                        
+                        
+                        <tbody class="divide-y divide-gray-200 bg-white">
+                           
+                            <tr class="hover:bg-gray-50 transition-colors">
+                                <td class="p-4">flag</td>
+                                <td class="p-4 font-medium text-gray-900">Name</td>
+                                <td class="p-4">Region</td>
+                                <td class="p-4">Population</td>
+                                <td class="p-4">
+                                    <button type="button" class="text-teal-600 hover:underline" aria-label="View more details about {country}">View More</button>
+                                </td>
+                            </tr>
+                           
+                            <tr class="bg-gray-50 hover:bg-gray-100 transition-colors">
+                                <td class="p-4">flag</td>
+                                <td class="p-4 font-medium text-gray-900">Name</td>
+                                <td class="p-4">Region</td>
+                                <td class="p-4">Population</td>
+                                <td class="p-4">
+                                    <button type="button" class="text-teal-600 hover:underline" aria-label="View more details about this country">View More</button>
+                                </td>
+                            </tr>
+                            
+                            <tr class="hover:bg-gray-50 transition-colors">
+                                <td class="p-4">flag</td>
+                                <td class="p-4 font-medium text-gray-900">Name</td>
+                                <td class="p-4">Region</td>
+                                <td class="p-4">Population</td>
+                                <td class="p-4">
+                                    <button type="button" class="text-teal-600 hover:underline" aria-label="View more details about {country}">View More</button>
+                                </td>
+                            </tr>
+                        </tbody>
+
+                    </table>
+                </div>
+            </section>
+           
+        </main>
+         <dialog id="countryModal" class="bg-black text-white p-6 rounded-2xl m-auto shadow-full md:max-w-md md:w-full " aria-label="More details about the country"> <!--still going to the js-->
+                <section class="flex flex-col">
+                <button type="button" class="close-btn text-xl text-gray-500 text-right focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-black" data-action="close" aria-label="Close dialog">&times;</button>
+                <div class="grid grid-cols-2 gap-4">
+                     <div class="nameExpanded">
+                        <p class="nameHeader text-xl font-bold">Name</p>
+                        <p class="nameValue text-lg" aria-live="polite">"String"</p>
+                    </div>
+                    <div class="populationExpanded">
+                        <p class="populationHeader text-xl font-bold">Population</p>
+                        <p class="populationValue text-lg" aria-live="polite">"Number"</p>
+                    </div>
+                    <div class="currencyExpanded">
+                        <p class="currencyHeader text-xl font-bold">Currency</p>
+                        <p class="currencyValue text-lg" aria-live="polite">"text"</p>
+                    </div>
+                    <div class="flagExpanded">
+                        <p class="flagHeader text-xl font-bold">Flag</p>
+                        <p class="flagValue text-lg" aria-live="polite">"Image"</p>
+                    </div>
+                    <div class="regionExpanded">
+                        <p class="regionHeader text-xl font-bold">Region</p>
+                        <p class="regionValue text-lg" aria-live="polite">"String"</p>
+                    </div>
+                </div>
+               
+                </section>
+            </dialog>
+        <script src="index.js"></script>
+        <footer class="text-center">&copy; 2026</footer>
+        
+    </body>
+    </html>
