@@ -52,10 +52,8 @@ async function fetchCountries() {
     try{
         state.status = 'loading'
         render()
-        var countriesUrl = "https://api.restcountries.com/countries/v5";
-        var response = await fetch(countriesUrl, {headers:{
-            'Authorization' : 'rc_live_c4240c3520c547348384c4b964d7456c'
-        }})
+        var countriesUrl = "https://api.restcountries.com/countries/v5?api-key=rc_live_c4240c3520c547348384c4b964d7456c";
+        var response = await fetch(countriesUrl)
         var dataGotten = await response.json()
         var information = dataGotten.map(function(country){
             name : country.data.object.official;
