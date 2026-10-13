@@ -49,6 +49,30 @@ function render(){
 render()
 async function fetchCountries() {
     // TODO: fetch from the API
-    // TODO: on success, store in state.countries, set status to 'loaded', call render()
-    // TODO: on error, set status to 'error', store message, call render()
+    try{
+        state.status = 'loading'
+        render()
+        var countriesUrl = "https://api.restcountries.com/countries/v5";
+        var response = await fetch(countriesUrl, {headers:{
+            'Authorization' : 'rc_live_c4240c3520c547348384c4b964d7456c'
+        }})
+        var dataGotten = await response.json()
+        var information = dataGotten.map(function(country){
+            name : country.data.object.official;
+            region: country.data.object.region;
+            population: country.data.object.population;
+            flag: [...country.data.object.currencies.flag.palette];
+            currency: `${country.data.object.currencies.code} (${country.data.object.currencies.symbol})`;         
+
+        })
+        state.countries = information
+        state.status='loaded'
+        render()
+    }
+    catch(err){
+        state.status ='error'
+        state.errorMessage = fetchedContent.insertAdjacentHTML("beforeend","<p class='text-center text-xl'>Wait a moment</p>")
+        render()
+    }
 }
+fetchCountries()
