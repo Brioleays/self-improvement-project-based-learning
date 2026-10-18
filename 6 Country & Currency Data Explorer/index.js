@@ -1,6 +1,6 @@
 
 var state = {
-    status: 'loading',              // 'empty' | 'loading' | 'loaded' | 'error'
+    status: 'loaded',              // 'empty' | 'loading' | 'loaded' | 'error'
     countries: [],                // array of country objects
   //{
       // name: 'Nigeria',
@@ -25,14 +25,7 @@ var fetchedContent = document.querySelector(".fetchedContent")
 var dialog = document.querySelector("dialog")
 function render(){
     dialog.classList.add("hidden")
-    if (state.status === 'empty'){
-        totalCountriesValue.textContent = 0
-        totalPopulationValue.textContent = 0
-        highestPopulationValue.textContent = "None"
-        table.classList.add("hidden")
-        fetchedContent.innerHTML = ""
-        fetchedContent.insertAdjacentHTML("beforeend","<p class='text-center text-xl'>Wait a moment</p>")
-    }else if (state.status === 'loading'){
+    if (state.status === 'loading'){
         totalCountriesValue.textContent = 0
         totalPopulationValue.textContent = 0
         highestPopulationValue.textContent = "None"
@@ -44,6 +37,19 @@ function render(){
         totalPopulationValue.textContent = 0
         highestPopulationValue.textContent = "None"
         table.classList.remove("hidden")
+    }else if (state.status === 'empty'){
+        totalCountriesValue.textContent = 0
+        totalPopulationValue.textContent = 0
+        highestPopulationValue.textContent = "None"
+        table.classList.add("hidden")
+        fetchedContent.innerHTML = ""
+        fetchedContent.insertAdjacentHTML("beforeend","<p class='text-center text-xl'>Wait a moment</p>")
+    }else if(state.status==='error'){
+        totalCountriesValue.textContent = 0
+        totalPopulationValue.textContent = 0
+        highestPopulationValue.textContent = "None"
+        table.classList.add("hidden")
+        fetchedContent.innerHTML=""
     }
 }
 render()
@@ -52,15 +58,24 @@ async function fetchCountries() {
     try{
         state.status = 'loading'
         render()
-        var countriesUrl = "https://api.restcountries.com/countries/v5?api-key=rc_live_c4240c3520c547348384c4b964d7456c";
-        var response = await fetch(countriesUrl)
-        var dataGotten = await response.json()
-        var information = dataGotten.map(function(country){
-            name : country.data.object.official;
-            region: country.data.object.region;
-            population: country.data.object.population;
-            flag: [...country.data.object.currencies.flag.palette];
-            currency: `${country.data.object.currencies.code} (${country.data.object.currencies.symbol})`;         
+        var countriesUrl = "https://api.restcountries.com/countries/v5?api-key=rc_live_demo";
+        if (!response.ok) {
+            throw new Error("API returned " + response.status);
+        }
+
+        var dataGotten = await response.json(countriesUrl);
+
+        if (!dataGotten.data || !dataGotten.data.objects) {
+            throw new Error("Unexpected response shape");
+        }
+        console.log("dataGotten:", dataGotten);
+        console.log("objects:", dataGotten.data.objects);
+        var information = dataGotten.data.objects.map(function(country){
+           return{ name : country.names.official,
+            region: country.region,
+            population: country.population,
+            flag: country.flag.url_svg,
+            currency: country[0]? `${country.currencies[0].code} (${country.currencies[0].symbol})` : 'N/A'  }      
 
         })
         state.countries = information
@@ -68,9 +83,11 @@ async function fetchCountries() {
         render()
     }
     catch(err){
+        console.log("Fetch error:", err);
         state.status ='error'
-        state.errorMessage = fetchedContent.insertAdjacentHTML("beforeend","<p class='text-center text-xl'>Wait a moment</p>")
+        state.errorMessage = "Failed to load countries"
         render()
     }
 }
 fetchCountries()
+render()
