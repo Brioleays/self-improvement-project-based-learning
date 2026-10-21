@@ -58,24 +58,14 @@ async function fetchCountries() {
     try{
         state.status = 'loading'
         render()
-        var countriesUrl = "https://api.restcountries.com/countries/v5?api-key=rc_live_demo";
-        if (!response.ok) {
-            throw new Error("API returned " + response.status);
-        }
-
+        var countriesUrl = await fetch("./data/countries.json");
         var dataGotten = await response.json(countriesUrl);
-
-        if (!dataGotten.data || !dataGotten.data.objects) {
-            throw new Error("Unexpected response shape");
-        }
-        console.log("dataGotten:", dataGotten);
-        console.log("objects:", dataGotten.data.objects);
         var information = dataGotten.data.objects.map(function(country){
-           return{ name : country.names.official,
-            region: country.region,
-            population: country.population,
-            flag: country.flag.url_svg,
-            currency: country[0]? `${country.currencies[0].code} (${country.currencies[0].symbol})` : 'N/A'  }      
+           return{ name : /* country.names.official*/,
+            region:  /*country.region*/,
+            population: /*country.population*/,
+            flag: /*country.flag.url_svg*/,
+            currency: /*country[0]? `${country.currencies[0].code} (${country.currencies[0].symbol})` : 'N/A'  } */     
 
         })
         state.countries = information
