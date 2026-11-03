@@ -18,12 +18,12 @@
                     <p class="tcHeader text-base">Total Countries</p>
                     <p class="tcValue text-5xl font-bold" aria-live="polite">0</p>
                 </div>
-                <div class="totalPopulation text-center">
-                    <p class="tpHeader text-base">Total Population</p>
+                <div class="totalArea text-center">
+                    <p class="tpHeader text-base">Total Area</p>
                     <p class="tpValue text-5xl font-bold" aria-live="polite">0</p>
                 </div>
-                <div class="highestPopulation text-center">
-                    <p class="hpHeader text-base">Highest Population</p>
+                <div class="highestArea text-center">
+                    <p class="hpHeader text-base">Highest Area</p>
                     <p class="hpValue text-5xl font-bold" aria-live="polite">None</p>
                 </div><!--though i am going to put all this in a function in the javascript so it will be updated while this will be shown until the data is on but when it is on and it is reloaded it will get hidden and the one in the js will come on i don't know if that will work but that is the though i have but aside from that the design for the part you requested for is done-->
             </section>
@@ -36,8 +36,8 @@
                             <option value="all">All Regions</option>
                         </select>
                     </div>
-                    <div class="population text-center flex flex-col space-y-2">
-                        <label for="pinput" class="text-base">Population</label>
+                    <div class="Area text-center flex flex-col space-y-2">
+                        <label for="pinput" class="text-base">Area</label>
                         <select id="pinput" class="px-8 border border-black rounded-lg focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-white" >
                             <option value="none">None</option>
                             <option value="highToLow">High to Low</option>
@@ -52,8 +52,8 @@
                         </div>    
                     </div>
                 </form>
-                
-                <div class="fetchedContent w-full overflow-x-auto rounded-lg shadow-sm border border-gray-100" aria-label="List of countries with flag, name, region, and population">
+                <p id="status-message" class="text-center text-xl"></p>
+                <div class="fetchedContent w-full overflow-x-auto rounded-lg shadow-sm border border-gray-100" aria-label="List of countries with flag, name, region, and Area">
                    
                     <table class="w-full border-collapse text-sm text-left text-gray-600">
                         
@@ -63,20 +63,20 @@
                                 <th class="p-4" scope="col">Flag</th>
                                 <th class="p-4" scope="col">Name</th>
                                 <th class="p-4" scope="col">Region</th>
-                                <th class="p-4" scope="col">Population</th>
+                                <th class="p-4" scope="col">Area</th>
                                 <th class="p-4" scope="col">View More</th>
                             </tr>
                         </thead>
                         
                         
                         
-                        <tbody class="divide-y divide-gray-200 bg-white">
+                        <tbody id="table-body" class="divide-y divide-gray-200 bg-white">
                            
                             <tr class="hover:bg-gray-50 transition-colors">
                                 <td class="p-4">flag</td>
                                 <td class="p-4 font-medium text-gray-900">Name</td>
                                 <td class="p-4">Region</td>
-                                <td class="p-4">Population</td>
+                                <td class="p-4">Area</td>
                                 <td class="p-4">
                                     <button type="button" class="text-teal-600 hover:underline" aria-label="View more details about {country}">View More</button>
                                 </td>
@@ -86,7 +86,7 @@
                                 <td class="p-4">flag</td>
                                 <td class="p-4 font-medium text-gray-900">Name</td>
                                 <td class="p-4">Region</td>
-                                <td class="p-4">Population</td>
+                                <td class="p-4">Area</td>
                                 <td class="p-4">
                                     <button type="button" class="text-teal-600 hover:underline" aria-label="View more details about this country">View More</button>
                                 </td>
@@ -96,7 +96,7 @@
                                 <td class="p-4">flag</td>
                                 <td class="p-4 font-medium text-gray-900">Name</td>
                                 <td class="p-4">Region</td>
-                                <td class="p-4">Population</td>
+                                <td class="p-4">Area</td>
                                 <td class="p-4">
                                     <button type="button" class="text-teal-600 hover:underline" aria-label="View more details about {country}">View More</button>
                                 </td>
@@ -116,9 +116,9 @@
                         <p class="nameHeader text-xl font-bold">Name</p>
                         <p class="nameValue text-lg" aria-live="polite">"String"</p>
                     </div>
-                    <div class="populationExpanded">
-                        <p class="populationHeader text-xl font-bold">Population</p>
-                        <p class="populationValue text-lg" aria-live="polite">"Number"</p>
+                    <div class="AreaExpanded">
+                        <p class="AreaHeader text-xl font-bold">Area</p>
+                        <p class="AreaValue text-lg" aria-live="polite">"Number"</p>
                     </div>
                     <div class="currencyExpanded">
                         <p class="currencyHeader text-xl font-bold">Currency</p>
