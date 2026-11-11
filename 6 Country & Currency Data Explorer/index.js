@@ -25,6 +25,11 @@ var fetchedContent = document.querySelector(".fetchedContent")
 var dialog = document.querySelector("dialog")
 var statusMessage = document.querySelector('#status-message')
 var tbody = document.querySelector("#table-body");
+var fbrinput = document.querySelector('#fbrinput option')
+var order = document.querySelector("#pinput")
+var orderValue = order.value
+var sbnInput = document.querySelector("#sbnInput")
+var countryModal = document.querySelector("#countryModal")
 function render(){
     dialog.classList.add("hidden")
     if (state.status === 'loading'){
@@ -36,48 +41,55 @@ function render(){
         
     }else if(state.status === 'loaded'){
         table.classList.remove("hidden")
-        totalCountriesValue.textContent = state.countries.length
         document.querySelector("#status-message").textContent = "";
-        totalAreaValue.textContent = state.countries.reduce(function(sum, country){
-          return sum + country.area
-        }, 0)
-       
-        var highest = state.countries.reduce(function(maxCountry, country){
-                if (maxCountry.area > country.area){
-                    return maxCountry
-                }else{
-                    return country
-                }
-            }, state.countries[0])
-        highestAreaValue.textContent = highest.name
-        tbody.innerHTML = ""; // Clear old rows]
-        state.countries.forEach(function(country){
-            tbody.insertAdjacentHTML("beforeend", `<tr class="hover:bg-gray-50 transition-colors">
-                                <td class="p-4">${country.flag}</td>
-                                <td class="p-4 font-medium text-gray-900">${country.name}</td>
-                                <td class="p-4">${country.region}</td>
-                                <td class="p-4">${country.area}</td>
-                                <td class="p-4">
-                                    <button type="button" class="text-teal-600 hover:underline" aria-label="View more details about {country}">View More</button>
-                                </td>
-                            </tr>`)
-        })
+    // 1. START WITH THE MASTER LIST
+        var displayCountries = [...state.countries];
+
+    // 2. APPLY REGION FILTER (if any)
+        if (state.currentFilter !== 'all') {
+            displayCountries = displayCountries.filter(function(country) {
+                return country.region === state.currentFilter;
+            });
+        }
+    // 3. APPLY SEARCH QUERY (if any)
+        if (state.searchQuery !== ''){
+            displayCountries = displayCountries.filter(function(country){
+                // return country.name.toLowerCase() === state.searchQuery.toLowerCase() exact matching
+                return country.name.toLowerCase().includes(state.searchQuery.toLowerCase())
+            })
+        }
+    // 3. APPLY AREA SORT (if any)
+        if (state.currentAreaArrangement === 'highToLow') {
+            displayCountries.sort(function(a, b) { return b.area - a.area; });
+        } else if (state.currentAreaArrangement === 'lowToHigh') {
+            displayCountries.sort(function(a, b) { return a.area - b.area; });
+        }
+
+    // 4. UPDATE THE SUMMARY BAR (Using the filtered list!)
+        totalCountriesValue.textContent = displayCountries.length;
+        totalAreaValue.textContent = displayCountries.reduce(function(sum, c) { return sum + c.area; }, 0).toFixed(2);
         
-    }else if (state.status === 'empty'){
-        totalCountriesValue.textContent = 0
-        totalAreaValue.textContent = 0
-        highestAreaValue.textContent = "None"
-        table.classList.add("hidden")
-        statusMessage.textContent = 'Wait a moment'
-        
-    }else if(state.status==='error'){
-        totalCountriesValue.textContent = 0
-        totalAreaValue.textContent = 0
-        highestAreaValue.textContent = "None"
-        table.classList.add("hidden")
-        statusMessage.textContent = state.errorMessage
-        
-    }
+        var highest = displayCountries.reduce(function(max, c) { 
+            return (c.area > max.area) ? c : max; 
+        }, displayCountries[0] || { name: "None", area: 0 });
+        highestAreaValue.textContent = highest.name;
+
+    // 5. RENDER THE TABLE (Using the filtered list!)
+        tbody.innerHTML = "";
+        displayCountries.forEach(function(country) {
+            tbody.insertAdjacentHTML("beforeend", `
+                <tr class="hover:bg-gray-50 transition-colors">
+                    <td class="p-4">${country.flag}</td>
+                    <td class="p-4 font-medium text-gray-900">${country.name}</td>
+                    <td class="p-4">${country.region}</td>
+                    <td class="p-4">${country.area}</td>
+                    <td class="p-4">
+                        <button type="button" class="tableButton text-teal-600 hover:underline">View More</button>
+                    </td>
+                </tr>
+            `);
+        });
+}
 }
 render()
 async function fetchCountries() {
@@ -88,6 +100,16 @@ async function fetchCountries() {
         var countriesResponse = await fetch("./data/countries.json");
         var dataGotten = await countriesResponse.json();    
         state.countries = dataGotten.map(toRow)
+        var allRegions = state.countries.map(function(country){
+            return country.region
+        })
+        var validRegions = allRegions.filter(function(region){
+            return region
+        })
+        var regionArr = [... new Set(validRegions)]
+         regionArr.forEach(function(region){
+             fbrinput.insertAdjacentHTML("afterend", `<option value="${region}">${region}</option>`)
+        })
         state.status='loaded'
         render()
     }
@@ -110,3 +132,21 @@ function toRow(country){
         currency: currencyText
     }
 }
+
+// Listen for region change
+document.querySelector("#fbrinput").addEventListener("change", function(e) {
+    state.currentFilter = e.target.value;
+    render(); // Re-draw the table
+});
+
+// Listen for area sort change
+document.querySelector("#pinput").addEventListener("change", function(e) {
+    state.currentAreaArrangement = e.target.value;
+    render();
+});
+document.querySelector(".search button").addEventListener("click", function(){
+    state.searchQuery = sbnInput.value.trim();
+    render()
+})
+
+fetchCountries()
