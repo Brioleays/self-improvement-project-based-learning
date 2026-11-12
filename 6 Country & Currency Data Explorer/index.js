@@ -22,7 +22,7 @@ var totalAreaValue = document.querySelector("#summary .totalArea .tpValue")
 var highestAreaValue = document.querySelector("#summary .highestArea .hpValue")
 var table = document.querySelector(".fetchedContent table")
 var fetchedContent = document.querySelector(".fetchedContent")
-var dialog = document.querySelector("dialog")
+
 var statusMessage = document.querySelector('#status-message')
 var tbody = document.querySelector("#table-body");
 var fbrinput = document.querySelector('#fbrinput option')
@@ -31,7 +31,6 @@ var orderValue = order.value
 var sbnInput = document.querySelector("#sbnInput")
 var countryModal = document.querySelector("#countryModal")
 function render(){
-    dialog.classList.add("hidden")
     if (state.status === 'loading'){
         totalCountriesValue.textContent = 0
         totalAreaValue.textContent = 0
@@ -84,7 +83,7 @@ function render(){
                     <td class="p-4">${country.region}</td>
                     <td class="p-4">${country.area}</td>
                     <td class="p-4">
-                        <button type="button" class="tableButton text-teal-600 hover:underline">View More</button>
+                        <button type="button" class="tableButton text-teal-600 hover:underline" data-country="${country.name}">View More</button>
                     </td>
                 </tr>
             `);
@@ -93,7 +92,7 @@ function render(){
 }
 render()
 async function fetchCountries() {
-    // TODO: fetch from the API
+    
     try{
         state.status = 'loading'
         render()
@@ -132,7 +131,36 @@ function toRow(country){
         currency: currencyText
     }
 }
+document.querySelector("#table-body").addEventListener("click", function(event) {
+    
+    
+    if (event.target.classList.contains("tableButton")) {
+        
+        
+        var countryName = event.target.dataset.country;
+        
+        
+        var selectedCountry = state.countries.find(function(c) {
+            return c.name === countryName;
+        });
+        
+        
+        document.querySelector(".nameValue").textContent = selectedCountry.name;
+        document.querySelector(".AreaValue").textContent = selectedCountry.area;
+        document.querySelector(".currencyValue").textContent = selectedCountry.currency;
+        document.querySelector(".regionValue").textContent = selectedCountry.region;
+        
+        
+        document.querySelector(".flagValue").textContent = selectedCountry.flag;
+        
+        countryModal.showModal();
+    }
+});
 
+// Close button listener
+document.querySelector(".close-btn").addEventListener("click", function() {
+    countryModal.close();
+});
 // Listen for region change
 document.querySelector("#fbrinput").addEventListener("change", function(e) {
     state.currentFilter = e.target.value;
