@@ -1,0 +1,102 @@
+[
+  {
+    "question": "What does HTML stand for?",
+    "options": [
+      "Hyper Text Markup Language",
+      "Home Tool Markup Language",
+      "Hyperlinks and Text Markup Language",
+      "Hyper Tool Multi Language"
+    ],
+    "correctAnswer": 0
+  },
+  {
+    "question": "Which HTML tag is used to define an internal style sheet?",
+    "options": [
+      "<script>",
+      "<css>",
+      "<style>",
+      "<link>"
+    ],
+    "correctAnswer": 2
+  },
+  {
+    "question": "Inside which HTML element do we put the JavaScript?",
+    "options": [
+      "<js>",
+      "<script>",
+      "<javascript>",
+      "<scripting>"
+    ],
+    "correctAnswer": 1
+  },
+  {
+    "question": "What is the correct CSS syntax to change the text color of all <p> tags?",
+    "options": [
+      "p {color: red;}",
+      "p:color = red;",
+      "<p style='color: red;'>",
+      "p {text-color: red;}"
+    ],
+    "correctAnswer": 0
+  },
+  {
+    "question": "How do you write an array in JavaScript?",
+    "options": [
+      "var colors = 'red', 'green', 'blue';",
+      "var colors = (1:'red', 2:'green', 3:'blue');",
+      "var colors = ['red', 'green', 'blue'];",
+      "var colors = 1 = ('red'), 2 = ('green');"
+    ],
+    "correctAnswer": 2
+  },
+  {
+    "question": "Which operator is used to assign a value to a variable?",
+    "options": [
+      "*",
+      "-",
+      "=",
+      "x"
+    ],
+    "correctAnswer": 2
+  },
+  {
+    "question": "What is the correct way to write a JavaScript array?",
+    "options": [
+      "var txt = new Array('tim','kim','jim');",
+      "var txt = new Array:1=('tim')2=('kim')3=('jim');",
+      "var txt = new Array='tim','kim','jim';",
+      "var txt = new Array['tim','kim','jim'];"
+    ],
+    "correctAnswer": 0
+  },
+  {
+    "question": "How does a FOR loop start?",
+    "options": [
+      "for (i <= 5; i++)",
+      "for (i = 0; i <= 5; i++)",
+      "for (i = 0; i <= 5)",
+      "for i = 1 to 5"
+    ],
+    "correctAnswer": 1
+  },
+  {
+    "question": "How can you add a comment in a JavaScript?",
+    "options": [
+      "'This is a comment",
+      "//This is a comment",
+      "<!--This is a comment-->",
+      "*This is a comment*"
+    ],
+    "correctAnswer": 1
+  },
+  {
+    "question": "What is the correct way to write a JavaScript object?",
+    "options": [
+      "var person = (firstName:'John', lastName:'Doe');",
+      "var person = [firstName:'John', lastName:'Doe'];",
+      "var person = {firstName:'John', lastName:'Doe'};",
+      "var person = 'firstName:John, lastName:Doe';"
+    ],
+    "correctAnswer": 2
+  }
+]

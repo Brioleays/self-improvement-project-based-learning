@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz App</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 flex flex-col items-center justify-center min-h-screen">
+    
+    <main class="w-full max-w-xl bg-white p-8 rounded-xl shadow-lg">
+        <!-- VIEW 1: LOADING -->
+        <div id="loading-view">
+            <p class="text-center text-xl">Loading questions...</p>
+        </div>
+
+        <!-- VIEW 2: PLAYING -->
+        <div id="playing-view" class="">
+            <!-- Question counter -->
+            <p id="question-counter" class="text-sm text-gray-500 mb-4">Question 1 of 10</p>
+            
+            <!-- Question text -->
+            <h2 id="question-text" class="text-2xl font-bold mb-6">Question goes here</h2>
+            
+            <!-- Options container -->
+            <div id="options-container" class="flex flex-col gap-3">
+                <!-- Buttons will be injected by JS -->
+            </div>
+
+            <!-- Next Button -->
+            <button id="next-btn" class="mt-6 w-full bg-black text-white p-3 rounded-lg disabled:opacity-50" disabled>
+                Next Question
+            </button>
+        </div>
+
+        <!-- VIEW 3: FINISHED -->
+        <div id="finished-view" class="text-center">
+            <h2 class="text-3xl font-bold mb-4">Quiz Finished!</h2>
+            <p id="final-score" class="text-xl mb-8">You scored ${score} out of 10</p>
+            <button id="restart-btn" class="bg-black text-white px-6 py-3 rounded-lg">
+                Play Again
+            </button>
+        </div>
+    </main>
+
+    <script src="index.js"></script>
+</body>
+</html>
